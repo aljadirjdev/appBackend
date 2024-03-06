@@ -31,7 +31,7 @@ const createdUser = async (req: Request, resp: Response) => {
 
     resp.status(200).json({
       ok: true,
-      msg: "Usuario creado stisfactoriamente",
+      msg: "Usuario creado satisfactoriamente",
       userCreated,
     });
   } catch (error) {

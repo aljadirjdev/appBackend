@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { login } from "../../controllers/Auth/auth.controller";
+import { login, newToken } from "../../controllers/Auth/auth.controller";
 import { checkValidator } from "../../middleware/checkValidator";
+import validateJWT from "../../middleware/validateJWT";
+import {
+  tokenUpdatePassword,
+  updatePassword,
+} from "../../controllers/Auth/changePassword";
 
 const route = Router();
 route.post(
@@ -13,5 +18,9 @@ route.post(
   ],
   login
 );
+route.get("/", validateJWT, newToken);
+
+route.post("/changePassword", tokenUpdatePassword);
+route.put("/:id", validateJWT, updatePassword);
 
 export default route;

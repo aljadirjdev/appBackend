@@ -22,7 +22,7 @@ interface reviewsInterface {
   punctuation: number;
 }
 
-interface productInterface extends Document {
+interface productInterface {
   nameProduct: string;
   descriptionProduct: "string";
   instruction: string;

@@ -34,7 +34,7 @@ const createdUser = (req, resp) => __awaiter(void 0, void 0, void 0, function* (
         const userCreated = yield newUser.save();
         resp.status(200).json({
             ok: true,
-            msg: "Usuario creado stisfactoriamente",
+            msg: "Usuario creado satisfactoriamente",
             userCreated,
         });
     }

@@ -10,13 +10,21 @@ const user_controller_1 = __importDefault(require("../controllers/user.controlle
 const validateJWT_1 = __importDefault(require("../middleware/validateJWT"));
 const route = (0, express_1.Router)();
 route.post("/", validateJWT_1.default, [
+    (0, express_validator_1.check)("firstName", "El campo primer nombre es obligatorio").not().isEmpty(),
+    (0, express_validator_1.check)("lastName", "El campo apellidos es obligatorio").not().isEmpty(),
+    (0, express_validator_1.check)("email", "El campo email es obligatorio").not().isEmpty(),
     (0, express_validator_1.check)("password", "El campo  es obligatorio").not().isEmpty(),
-    (0, express_validator_1.check)("email", "El campo Email es obligatorio").not().isEmpty().isEmail(),
+    (0, express_validator_1.check)("documentType", "El campo Tipo de documento es obligatorio")
+        .not()
+        .isEmpty(),
+    (0, express_validator_1.check)("documentNumber", "El campo documento es obligatorio")
+        .not()
+        .isEmpty(),
     (0, express_validator_1.check)("typeUser", "El campo Tipo de usuario es obligatorio")
         .not()
         .isEmpty(),
-    (0, express_validator_1.check)("status", "El campo Statu es obligatorio").not().isEmpty(),
     (0, express_validator_1.check)("rol", "El campo Pais es obligatorio").not().isEmpty(),
+    (0, express_validator_1.check)("status", "El campo Statu es obligatorio").not().isEmpty(),
     checkValidator_1.checkValidator,
 ], user_controller_1.default);
 exports.default = route;

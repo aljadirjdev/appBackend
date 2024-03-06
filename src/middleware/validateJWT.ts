@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { header } from "express-validator";
 const jwt = require("jsonwebtoken");
 
-interface custonRequest extends Request {
+export interface custonRequest extends Request {
   _id?: number;
 }
 

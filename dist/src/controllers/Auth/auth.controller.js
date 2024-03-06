@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.newToken = exports.login = void 0;
 const user_model_1 = __importDefault(require("../../models/user.model"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jwt_1 = __importDefault(require("../../helpers/jwt"));
@@ -47,4 +47,28 @@ const login = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const newToken = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req._id;
+    if (typeof id === "undefined") {
+        throw new Error("No existe id");
+    }
+    const user = yield user_model_1.default.findById(id);
+    // Generate token
+    const token = yield (0, jwt_1.default)(id.toString());
+    try {
+        resp.json({
+            ok: true,
+            token,
+            user,
+        });
+    }
+    catch (error) {
+        resp.status(401).json({
+            ok: false,
+            error,
+            msg: "Comuniquese con el administrador",
+        });
+    }
+});
+exports.newToken = newToken;
 //# sourceMappingURL=auth.controller.js.map

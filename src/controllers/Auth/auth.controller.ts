@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import UserModel from "../../models/user.model";
 import bcrypt from "bcryptjs";
 import generateToken from "../../helpers/jwt";
+import { custonRequest } from "../../middleware/validateJWT";
 
 export const login = async (req: Request, resp: Response) => {
   const { email, password } = req.body;
@@ -31,6 +32,30 @@ export const login = async (req: Request, resp: Response) => {
       ok: false,
       error,
       msg: "Pongase en contacto con el admin",
+    });
+  }
+};
+
+export const newToken = async (req: custonRequest, resp: Response) => {
+  const id = req._id;
+  if (typeof id === "undefined") {
+    throw new Error("No existe id");
+  }
+  const user = await UserModel.findById(id);
+  // Generate token
+  const token = await generateToken(id.toString());
+
+  try {
+    resp.json({
+      ok: true,
+      token,
+      user,
+    });
+  } catch (error) {
+    resp.status(401).json({
+      ok: false,
+      error,
+      msg: "Comuniquese con el administrador",
     });
   }
 };
