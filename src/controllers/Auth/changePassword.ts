@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import UserModel from "../../models/user.model";
 import generateToken from "../../helpers/jwt";
-
+import bcrypt from "bcryptjs";
 export const tokenUpdatePassword = async (req: Request, resp: Response) => {
   const { body } = req;
   const { email, documentNumber } = body;
@@ -43,13 +43,15 @@ export const updatePassword = async (req: Request, resp: Response) => {
     const id = req.params.id;
     const { body } = req;
     const { password } = body;
-    const updatePassword = await UserModel.findByIdAndUpdate(password, {
+
+    let passwordEncrypter = bcrypt.hashSync(password, 10);
+
+    const updatePassword = await UserModel.findByIdAndUpdate(id, password, {
       new: true,
     });
-
     resp.json({
       ok: true,
-      password: updatePassword,
+      password: passwordEncrypter,
     });
   } catch (error) {
     resp.status(400).json({

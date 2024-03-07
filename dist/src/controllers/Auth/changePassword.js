@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePassword = exports.tokenUpdatePassword = void 0;
 const user_model_1 = __importDefault(require("../../models/user.model"));
 const jwt_1 = __importDefault(require("../../helpers/jwt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const tokenUpdatePassword = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { email, documentNumber } = body;
@@ -51,12 +52,13 @@ const updatePassword = (req, resp) => __awaiter(void 0, void 0, void 0, function
         const id = req.params.id;
         const { body } = req;
         const { password } = body;
-        const updatePassword = yield user_model_1.default.findByIdAndUpdate(password, {
+        let passwordEncrypter = bcryptjs_1.default.hashSync(password, 10);
+        const updatePassword = yield user_model_1.default.findByIdAndUpdate(id, password, {
             new: true,
         });
         resp.json({
             ok: true,
-            password: updatePassword,
+            password: passwordEncrypter,
         });
     }
     catch (error) {

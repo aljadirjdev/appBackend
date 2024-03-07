@@ -21,6 +21,7 @@ route.post(
 route.get("/", validateJWT, newToken);
 
 route.post("/changePassword", tokenUpdatePassword);
+
 route.put("/:id", validateJWT, updatePassword);
 
 export default route;
